@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Chat Room</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="rooms-panel">
+      <h3>Chat Rooms</h3>
+      <ul id="roomsList"></ul>
+
+      <div class="room-creation">
+        <h4>
+          Create Room
+          <button id="createToggle" class="toggle-btn" aria-expanded="true">▾</button>
+        </h4>
+        <div class="creation-body">
+          <input type="text"   id="newRoomName"    placeholder="Room name">
+          <input type="text"   id="newRoomDesc"    placeholder="Description">
+          <label>
+            <input type="checkbox" id="newRoomPrivate"> Private
+          </label>
+          <button id="createRoomBtn">Create Room</button>
+        </div>
+      </div>
+
+      <div class="invitations-section">
+        <h4>
+          Invitations
+          <button id="invitesToggle" class="toggle-btn" aria-expanded="true">▾</button>
+          <span id="inviteCount" class="invite-badge">0</span>
+        </h4>
+        <div id="invitationsList" class="invitations-list"></div>
+      </div>
+    </div>
+
+    <div class="chat-container">
+      <div class="user-list">
+        <h3>Online Users</h3>
+        <div id="user-list"></div>
+      </div>
+
+      <div class="main-chat">
+
+        <div class="chat-header">
+          <h2 id="currentRoomName">Chat Room</h2>
+          <button id="inviteUserBtn" class="invite-button" style="display: none;">Invite User</button>
+          <button id="leaveRoomBtn" class="leave-button">Leave Room</button>
+          <button id="logoutButton" class="logout-button">Logout</button>
+        </div>
+>
+        <div class="messages-container" id="messages-container"></div>
+
+        <div class="typing-indicator" id="typingIndicator">
+          <span id="typingStatus"></span>
+        </div>
+
+        <div class="chat-input-container message-input-container">
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Type your message..."
+            class="message-input"
+            disabled
+          />
+          <button id="emojiButton" class="emoji-button" disabled>🙂</button>
+          <button id="send-button" class="send-button" disabled>Send</button>
+          <div
+            id="emojiPickerContainer"
+            class="emoji-picker-container"
+          ></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="inviteModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Invite User to Room</h2>
+      <input type="text" id="inviteUsername" placeholder="Enter username">
+      <div class="modal-buttons">
+        <button id="sendInviteBtn" class="btn-primary">Send Invite</button>
+        <button id="cancelInviteBtn" class="btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="notifications" class="notifications-container"></div>
+
+  <script src="chat.js"></script>
+</body>
+</html>

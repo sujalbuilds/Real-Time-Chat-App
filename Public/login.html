@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" minlength="6" required />
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="register.html">Register</a></p>
+  </div>
+
+  <script type="module">
+    import { login } from './services/auth.js';
+
+    const form = document.getElementById('loginForm');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+
+      try {
+        const res = await login(form.email.value, form.password.value);
+        console.log('Login response received:', res);
+
+        if (res.user) {
+          window.location.href = '/';
+        } else {
+          throw new Error('Invalid response from server');
+        }
+      } catch (err) {
+        console.error('Login error caught:', err);
+        alert(err.message || 'Login failed. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>
