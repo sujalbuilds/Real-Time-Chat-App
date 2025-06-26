@@ -171,6 +171,7 @@ function displayRooms(rooms) {
   });
 }
 
+
 async function createRoom() {
   const name = elements.newRoomName.value.trim();
   const description = elements.newRoomDesc.value.trim();
@@ -603,7 +604,6 @@ document.addEventListener('DOMContentLoaded', () => {
     invitesToggle.setAttribute('aria-expanded', String(!collapsed));
   });
 });
-
 
 async function deleteRoom(roomId) {
 

@@ -241,8 +241,9 @@ exports.deleteRoom = async (req, res, next) => {
     if (room.createdBy.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: 'Not authorized to delete this room' });
     }
+
     await ChatRoom.findByIdAndDelete(roomId);
-    
+
     const { io } = require('../server');
     io.to(roomId).emit('system-message', `Room "${room.name}" has been deleted.`);
     io.in(roomId).socketsLeave(roomId);
