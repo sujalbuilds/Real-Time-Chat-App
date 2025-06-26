@@ -12,8 +12,8 @@ router.post('/:roomId/leave', auth, ctrl.leaveRoom);
 router.get('/:roomId/messages', auth, ctrl.getRoomMessages);
 router.post('/:roomId/invite', auth, ctrl.inviteUser);
 router.get('/:roomId/invitations', auth, ctrl.getRoomInvitations);
-
-
 router.post('/invitations/:inviteId/respond', auth, ctrl.respondToInvitation);
+
+router.delete('/:roomId', auth, ctrl.deleteRoom);  
 
 module.exports = router;
