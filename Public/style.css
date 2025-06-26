@@ -1481,3 +1481,34 @@ input:focus-visible {
   padding: 0;
   height: auto;
 }
+
+/*delete button */
+.delete-btn {
+  margin-left: 8px;
+  padding: 8px 12px;
+  background: var(--brand-danger);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+.delete-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left var(--transition-normal);
+}
+.delete-btn:hover::before {
+  left: 100%;
+}
+.delete-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
