@@ -1461,7 +1461,6 @@ input:focus-visible {
   overflow: hidden;   
 }
 
-/* Always fill full width so inputs/buttons never stick out */
 .creation-body,
 .invitations-list {
   width: 100%;
@@ -1474,7 +1473,6 @@ input:focus-visible {
   cursor: pointer;
   margin-left: 8px;
 
-  /* ensure inline sizing */
   display: inline-flex;
   align-items: center;
   justify-content: center;
