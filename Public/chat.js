@@ -151,13 +151,21 @@ function displayRooms(rooms) {
   rooms.forEach(room => {
     const li = document.createElement('li');
     li.className = 'room-item';
+    
+    const creatorId = room.createdBy?._id || room.createdBy;
+    const isCreator = creatorId === currentUser.id;
+
     li.innerHTML = `
       <div class="room-info">
-        <h4>${room.name} ${room.isPrivate ? '🔒' : ''}</h4>
+        <h4>${room.name}${room.isPrivate ? ' 🔒' : ''}</h4>
         <p>${room.description}</p>
         <small>Created by: ${room.createdBy?.username || 'Unknown'}</small>
       </div>
       <button onclick="joinRoom('${room._id}')" class="join-btn">Join</button>
+      ${isCreator
+        ? `<button onclick="deleteRoom('${room._id}')" class="delete-btn">Delete</button>`
+        : ''
+      }
     `;
     elements.roomsList.appendChild(li);
   });
@@ -595,6 +603,33 @@ document.addEventListener('DOMContentLoaded', () => {
     invitesToggle.setAttribute('aria-expanded', String(!collapsed));
   });
 });
+
+
+async function deleteRoom(roomId) {
+
+  if (!confirm('Are you sure you want to delete this room?')) return;
+
+  try {
+    const res = await fetch(`/api/chat-rooms/${roomId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    const json = await res.json();
+
+    if (res.ok) {
+      showNotification(json.message, 'info');
+      loadRooms();                    
+      if (currentRoom === roomId) {   
+        leaveRoom();                  
+      }
+    } else {
+      showNotification(json.message, 'error');
+    }
+  } catch (err) {
+    console.error('Error deleting room:', err);
+    showNotification('Failed to delete room', 'error');
+  }
+}
 
 window.joinRoom = joinRoom;
 window.respondToInvitation = respondToInvitation;
