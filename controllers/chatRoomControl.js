@@ -229,3 +229,27 @@ exports.getRoomInvitations = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteRoom = async (req, res, next) => {
+  try {
+    const { roomId } = req.params;
+    const room = await ChatRoom.findById(roomId);
+
+    if (!room) {
+      return res.status(404).json({ message: 'Room not found' });
+    }
+    if (room.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to delete this room' });
+    }
+    await ChatRoom.findByIdAndDelete(roomId);
+    
+    const { io } = require('../server');
+    io.to(roomId).emit('system-message', `Room "${room.name}" has been deleted.`);
+    io.in(roomId).socketsLeave(roomId);
+    io.emit('room-deleted', { roomId, roomName: room.name });
+
+    return res.json({ message: 'Room deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+};
